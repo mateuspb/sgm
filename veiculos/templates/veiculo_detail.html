@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}SGM - Detalhes do Veículo{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-4">Detalhes do Veículo</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Placa: {{ object.placa }}</h3>
+            <p class="card-text">Modelo: {{ object.modelo|default_if_none:"" }}</p>
+            <p class="card-text">Ano Fabricação: {{ object.ano|default_if_none:"" }}</p>
+            <p class="card-text">Carga Total: {{ object.carga_total|default_if_none:"" }}</p>
+        </div>
+    </div>
+    <a href="{% url 'veiculo_list' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

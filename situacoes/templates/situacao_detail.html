@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}SGM - Detalhes da Situação{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-4">Detalhes da Situação</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Nome: {{ object.nome }}</h3>
+            <p class="card-text">Descrição: {{ object.descricao|default_if_none:"" }}</p>
+            <p class="card-text">Cor: {{ object.cor|default_if_none:"" }}</p>
+        </div>
+    </div>
+    <a href="{% url 'situacao_list' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

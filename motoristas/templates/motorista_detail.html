@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}SGM - Detalhes do Motorista{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-4">Detalhes do Motorista</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Nome: {{ object.nome }}</h3>
+            <p class="card-text">CNH: {{ object.cnh|default_if_none:"" }}</p>
+        </div>
+    </div>
+    <a href="{% url 'motorista_list' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

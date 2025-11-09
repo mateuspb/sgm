@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}SGM - Lista de Guias de Movimentaçõess{% endblock %}
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-6">
+        <form method="get" action="{% url 'movimentacao_list' %}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="cliente" placeholder="Nome do Cliente"
+                    value="{{ request.GET.cliente }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <a href="{% url 'movimentacao_create' %}" class="btn btn-success float-end">
+            <i class="bi bi-plus"></i>Nova Guia de Movimentação
+        </a>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Número</th>
+                <th>Data</th>
+                <th>Placa</th>
+                <th>Cliente</th>
+                <th>Peso Carregado</th>
+                <th>Motorista</th>
+                <th>Produto</th>
+                <th>Tipo de Carga</th>
+                <th>Situação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movimentacao in movimentacoes %}
+            <tr>
+                <td>{{ movimentacao.id }}</td>
+                <td>{{ movimentacao.data_criacao }}</td>
+                <td>{{ movimentacao.veiculo }}</td>
+                <td>{{ movimentacao.cliente }}</td>
+                <td>{{ movimentacao.peso_carregado|default_if_none:"" }}</td>
+                <td>{{ movimentacao.motorista }}</td>
+                <td>{{ movimentacao.produto }}</td>
+                <td>{{ movimentacao.tipo_carga }}</td>
+                <td>{{ movimentacao.situacao }}</td>
+                <td>
+                    <a href="{% url 'movimentacao_detail' movimentacao.id %}" class="btn btn-info btn-sm">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    {% if not movimentacao.assinatura_base64 %}
+                    {% if perms.movimentacoes.change_movimentacao %}
+                    <a href="{% url 'movimentacao_update' movimentacao.id %}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    {% endif %}
+                    {% if not movimentacao.assinatura_base64 and perms.movimentacoes.delete_movimentacao %}
+                    <a href="{% url 'movimentacao_delete' movimentacao.id %}" class="btn btn-danger btn-sm btn-delete">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    {% endif %}
+                    {% endif %}
+                    {% if not movimentacao.assinatura_base64 and movimentacao.situacao.id != 2 %}
+                    <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#modalAssinatura" data-id="{{ movimentacao.id }}">
+                        <i class="bi bi-alphabet"></i>
+                    </button>
+                    {% endif %}
+                    <button type="button" class="btn btn-primary btn-sm" onclick="gerarPDF({{ movimentacao.id }})">
+                        <i class="bi bi-filetype-pdf"></i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<!-- MODAL ASSINATURA -->
+<div class="modal" id="modalAssinatura" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assinar Documento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="signatureCanvas" class="h-full w-full rounded-md border border-gray-300"></canvas>
+                <input type="hidden" id="movimentacaoId" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="clearSignature" class="btn btn-secondary">Limpar</button>
+                <button type="button" id="saveSignature" class="btn btn-primary">Salvar Assinatura</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script src="{% static 'js/assinatura.js' %}"></script>
+<script src="{% static 'js/gerarPDF.js' %}"></script>
+{% include 'components/_pagination.html' %}
+{% endblock %}

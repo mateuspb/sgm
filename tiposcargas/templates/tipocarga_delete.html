@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}SGM - Deletar Tipo de Carga{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-4">Deletar Tipo de Carga</h3>
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">Tem certeza de que deseja excluir o Tipo de Carga <strong>{{ object.nome }}</strong>?
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Deletar</button>
+            </form>
+
+            <a href="{% url 'tipocarga_list' %}" class="btn btn-secondary mt-3">Cancelar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

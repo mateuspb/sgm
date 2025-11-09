@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}SGM - Deletar Cliente{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-4">Deletar Cliente</h3>
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">Tem certeza de que deseja excluir o Cliente <strong>{{ object.nome }}</strong>?</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Deletar</button>
+            </form>
+
+            <a href="{% url 'cliente_list' %}" class="btn btn-secondary mt-3">Cancelar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

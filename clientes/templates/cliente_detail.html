@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}SGM - Detalhes do Cliente{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-4">Detalhes do Cliente</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Nome: {{ object.nome }}</h3>
+            <p class="card-text">E-mail: {{ object.email|default_if_none:"" }}</p>
+            <p class="card-text">Telefone: {{ object.telefone|default_if_none:"" }}</p>
+            <p class="card-text">CEP: {{ object.cep|default_if_none:"" }}</p>
+            <p class="card-text">Cidade: {{ object.cidade|default_if_none:"" }}</p>
+            <p class="card-text">Estado: {{ object.estado|default_if_none:"" }}</p>
+            <p class="card-text">Bairro: {{ object.bairro|default_if_none:"" }}</p>
+            <p class="card-text">Endereço: {{ object.endereco|default_if_none:"" }}</p>
+            <p class="card-text">Número: {{ object.numero|default_if_none:"" }}</p>
+            <p class="card-text">Complemento: {{ object.complemento|default_if_none:"" }}</p>
+        </div>
+    </div>
+    <a href="{% url 'cliente_list' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

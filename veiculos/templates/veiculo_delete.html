@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}SGM - Deletar Veículo{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-4">Deletar Veículo</h3>
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">Tem certeza de que deseja excluir o Veículo <strong>{{ object.placa }}</strong>?</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Deletar</button>
+            </form>
+
+            <a href="{% url 'veiculo_list' %}" class="btn btn-secondary mt-3">Cancelar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
